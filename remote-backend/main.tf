@@ -5,6 +5,16 @@ resource "aws_s3_bucket" "terraform_state" {
   lifecycle {
     prevent_destroy = true
   }
+
+  tags = {
+    Name        = "terraform-state-terra-aws-eks"
+    Environment = "development"
+  }
+}
+
+resource "aws_s3_bucket_acl" "s3_bucket_acl" {
+  bucket = aws_s3_bucket.terraform_state.id
+  acl    = "private"
 }
 
 resource "aws_s3_bucket_versioning" "s3_bucket_versioning" {
